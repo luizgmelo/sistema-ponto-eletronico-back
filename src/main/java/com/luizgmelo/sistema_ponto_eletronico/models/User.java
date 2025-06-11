@@ -1,16 +1,15 @@
 package com.luizgmelo.sistema_ponto_eletronico.models;
 
-import com.luizgmelo.sistema_ponto_eletronico.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
 @Entity
 @Table(name = "tb_user")
@@ -21,8 +20,8 @@ import java.util.*;
 public class User implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     private String name;
@@ -37,17 +36,11 @@ public class User implements UserDetails {
     private Boolean isActive;
 
     @Column(nullable = false)
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING)
-    private Set<UserRole> roles;
+    private Boolean isManagement;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.roles.contains(UserRole.ADMIN)) {
-            return List.of(new SimpleGrantedAuthority(UserRole.ADMIN.toString()), new SimpleGrantedAuthority(UserRole.COMMON.toString()));
-        } else {
-            return List.of(new SimpleGrantedAuthority(UserRole.COMMON.toString()));
-        }
+        return Collections.emptyList();
     }
 
     @Override
