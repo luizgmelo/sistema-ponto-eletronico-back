@@ -1,5 +1,6 @@
 package com.luizgmelo.sistema_ponto_eletronico.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -37,6 +38,11 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private Boolean isManagement;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sector_id", nullable = false)
+    private Sector sector;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

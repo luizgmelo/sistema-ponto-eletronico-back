@@ -16,6 +16,6 @@ public class UserService {
     public Page<UserDto> getAllUsers(int pageNo, int pageSize) {
         Pageable pageable = PageRequest.of(pageNo, pageSize);
         return userRepository.findAll(pageable)
-                .map(u -> new UserDto(u.getId(), u.getName(), u.getCpf(), u.getIsActive(), u.getIsManagement()));
+                .map(u -> new UserDto(u.getId(), u.getName(), u.getCpf(), u.getIsActive(), u.getIsManagement(), u.getSector().getId()));
     }
 }
